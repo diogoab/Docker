@@ -63,15 +63,6 @@ RUN apt-get autoclean && \
 # Init directory
 WORKDIR /
 
-# Entrypoint Configuration Directory
-RUN mkdir /docker-entrypoint-initdb.d
-
-# Copy File Entrypoint
-COPY /docker-entrypoint.sh /
-
-# Entrypoint
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
 # Expose Port
 EXPOSE 22
 
