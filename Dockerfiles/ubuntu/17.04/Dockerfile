@@ -46,19 +46,22 @@ RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/s
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 # Copy File
-COPY supervisord.conf /tmp/supervisord.conf
-
-# Adding Scripts to Boot Supervisord
-RUN  cat /tmp/supervisord.conf >> /etc/supervisor/conf.d/supervisord.conf
-
-# Removing file
-RUN rm -f /tmp/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # SSH Configuration Directory
 RUN mkdir -p /var/run/sshd
 
 # Init directory
 WORKDIR /
+
+# Entrypoint Configuration Directory
+RUN mkdir /docker-entrypoint-initdb.d
+
+# Copy File Entrypoint
+COPY /docker-entrypoint.sh /
+
+# Entrypoint
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Expose Port
 EXPOSE 22
