@@ -4,7 +4,7 @@ FROM registry.access.redhat.com/rhel6/rhel
 MAINTAINER Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>
 
 # Labels
-LABEL name = "marcosoliveirasoares94/rhel:6.8"
+LABEL name = "marcosoliveirasoares94/rhel:6"
 LABEL summary = "RedHat 6 Image with OpenSSH-Server"
 LABEL description = "RedHat 6 Image with OpenSSH-Server"
 LABEL maintainer = "Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>"
@@ -20,7 +20,7 @@ ENV SSH_ROOT_PASSWORD = "secret"
 ENV SSH_ROOT_PASSWORD=secret
 
 # Copying files
-COPY centos-6.8.repo /etc/yum.repos.d/centos-6.8.repo
+COPY centos-6.repo /etc/yum.repos.d/centos-6.repo
 
 # BASE image installation.
 RUN yum update -y

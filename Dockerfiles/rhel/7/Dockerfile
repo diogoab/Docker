@@ -4,7 +4,7 @@ FROM registry.access.redhat.com/rhel7/rhel
 MAINTAINER Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>
 
 # Labels
-LABEL name = "marcosoliveirasoares94/rhel:7.3"
+LABEL name = "marcosoliveirasoares94/rhel:7"
 LABEL summary = "RedHat 7 Image with OpenSSH-Server"
 LABEL description = "RedHat 7 Image with OpenSSH-Server"
 LABEL maintainer = "Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>"
@@ -17,7 +17,7 @@ ENV REDHAT_FRONTEND = "noninteractive"
 ENV SSH_ROOT_PASSWORD = "secret"
 
 # Copying files
-COPY centos-7.3.repo /etc/yum.repos.d/centos-7.3.repo
+COPY centos-7.repo /etc/yum.repos.d/centos-7.repo
 
 # BASE image installation.
 RUN yum update -y
