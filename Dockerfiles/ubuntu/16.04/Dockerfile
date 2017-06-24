@@ -1,14 +1,20 @@
 FROM ubuntu:16.04
 
-# Repository/Image Maintainer
+# Image Maintainer
 MAINTAINER Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>
 
-# Environment variables.
-ENV TERM=xterm
-ENV UBUNTU_FRONTEND=noninteractive
+# Labels
+LABEL name = "marcosoliveirasoares94/ubuntu:16.04"
+LABEL summary = "Ubuntu 16 Image with OpenSSH-Server"
+LABEL description = "Ubuntu 16 Image with OpenSSH-Server"
+LABEL maintainer = "Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>"
+LABEL com.marcosoliveirasoares94.applications = "OpenSSH-Server, Vim, Zip, Curl, Wget, Supervisor, NetTools"
+LABEL com.marcosoliveirasoares94.tags = "Ubuntu 16, SSH"
 
-# Password root.
-ENV SSH_ROOT_PASSWORD=secret
+# Environment variables.
+ENV TERM = "xterm"
+ENV UBUNTU_FRONTEND = "noninteractive"
+ENV SSH_ROOT_PASSWORD = "secret"
 
 # BASE image installation.
 RUN apt-get update -y
@@ -34,15 +40,11 @@ RUN apt-get autoclean && \
 
 # Terminal Configuration
 RUN echo 'alias ls="ls -a --color=auto"' >> /etc/bash.bashrc
-RUN echo 'alias ll="ls -a --color=auto"' >> /etc/bash.bashrc
+RUN echo 'alias ll="ls -la --color=auto"' >> /etc/bash.bashrc
 
-# Password Configurations Root
+# SSH Configurations Root
 RUN echo "root:${SSH_ROOT_PASSWORD}" | chpasswd
-
-# Root Login
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# Fixed SSH
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 # Copy File

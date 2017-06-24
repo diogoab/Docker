@@ -1,14 +1,20 @@
 FROM registry.access.redhat.com/rhel7/rhel
 
-# Repository/Image Maintainer
+# Image Maintainer
 MAINTAINER Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>
 
-# Environment variables.
-ENV TERM=xterm
-ENV REDHAT_FRONTEND=noninteractive
+# Labels
+LABEL name = "marcosoliveirasoares94/rhel:7.3"
+LABEL summary = "RedHat 7 Image with OpenSSH-Server"
+LABEL description = "RedHat 7 Image with OpenSSH-Server"
+LABEL maintainer = "Marcos Oliveira Soares <marcosoliveirasoares94@gmail.com>"
+LABEL com.marcosoliveirasoares94.applications = "OpenSSH-Server, Vim, Zip, Curl, Wget, Supervisor"
+LABEL com.marcosoliveirasoares94.tags = "RedHat 7, SSH"
 
-# Password root.
-ENV SSH_ROOT_PASSWORD=secret
+# Environment variables.
+ENV TERM = "xterm"
+ENV REDHAT_FRONTEND = "noninteractive"
+ENV SSH_ROOT_PASSWORD = "secret"
 
 # Copying files
 COPY centos-7.3.repo /etc/yum.repos.d/centos-7.3.repo
@@ -40,10 +46,8 @@ RUN echo 'alias ll="ls -la --color=auto"' >> /etc/bashrc
 # Copy File
 COPY supervisord.conf /etc/supervisord.conf
 
-# Password Configurations Root
+# SSH Configurations Root
 RUN echo "root:${SSH_ROOT_PASSWORD}" | chpasswd
-
-# SSH Configuration
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config && \
 	/usr/bin/ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N "" && \
